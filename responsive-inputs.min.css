@@ -1,0 +1,1 @@
+.responsive>div{width:100%;margin:0.4em}@media only screen and (min-width: 360px){.post-address{display:flex}.post-address>:first-child{width:30%}}@media only screen and (min-width: 480px){.responsive{display:flex}}

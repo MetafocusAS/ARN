@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+$font-stack: "Montserrat", sans-serif;
+$font-body-text: "Raleway", sans-serif;
+
+/* colors */
+$light-grey: #E5E5E5;
+$lighter-grey: #f2f2f2;
+$black: #000000;
+$white: #ffffff;
+$red: #ad0031;
+$dark-red: #500A21;
+$pink: #c24d6d;
+$blue: #009fbc;
+$dark-blue: #076a81;
+$purple: #7d3fb8;
+
+
+/* tvinger hele løsningen til å bruke spesifisert font, selv ved inline style */
+* {
+    font-family: $font-stack !important;
+}
+
+body {
+    background-color: $white;
+}
+
+a {
+    color: $white;
+}
+
+legend {
+    margin-left: -0.1em;
+}
+
+
+/*************************************************/
+/*                  PAGE LOADING                 */
+/*************************************************/
+
+/* fjerner loading-gizmo og legger til nytt laget i CSS */
+#digiforms_progress {
+    background-image: none !important;
+    border: 16px solid $lighter-grey;
+    border-top: 16px solid $pink;
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    position: fixed;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    top: calc((100vh/2)*0.8);
+    animation: spin 2s linear infinite;
+    -moz-animation: spin 2s linear infinite;
+    -webkit-animation: spin 2s linear infinite;
+    -o-animation: spin 2s linear infinite;
+    -ms-animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); -moz-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -ms-transform: rotate(0deg); }
+    100% { transform: rotate(360deg); -moz-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -ms-transform: rotate(360deg); }
+}
+
+
+/*************************************************/
+/*                    INPUT                      */
+/*************************************************/
+input {
+    border-bottom: solid 6px $pink !important;
+}
+input:focus {
+    border-bottom: solid 6px $black !important;
+}
+
+
+/*************************************************/
+/*                   KNAPPER                     */
+/*************************************************/
+.btn {
+    height: 4em;
+    width: 100%;
+    color: $white;
+    border: solid 1px $white;
+    background-color: transparent;
+}
+.btn:hover, .btn:focus {
+    background-color: $dark-red;
+}
+
+
+/*************************************************/
+/*                    HEADER                     */
+/*************************************************/
+#header {
+    width: 90%;
+    margin: 0.8em auto;
+}
+#logo {
+    width: 100px !important;
+}
+
+
+/*************************************************/
+/*                FEILMELDINGER                  */
+/*************************************************/
+/* skjuler alle custom valideringsmeldinger */
+[id^="validate"] {
+    visibility: hidden;
+    height: 0px;
+}
+/* legger feilmelding UNDER felt */
+.label_control {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column-reverse;
+}
+.digiforms_validation_message {
+    font-weight: bold;
+    font-size: 0.8em;
+    background: none;
+    display: block;
+    background-color: $pink;
+    color: $white;
+    padding: 0.5em 1em 1em;
+    z-index: 1;
+    position: relative;
+}
+
+
+/*************************************************/
+/*                  LOGIN-SIDE                   */
+/*************************************************/
+#popup-cover {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8) !important;
+    z-index: 10000;
+}
+
+.element-container {
+    padding: 7%;
+    background-color: $red;
+}
+/* "FÖLJ ÄRENDET" */
+.page-container_legend {
+    font-size: 1.6em;
+    padding: 2% 7% 5%;
+    font-weight: bold;
+}
+/* "lenke" for glemt passord */
+#password-forgotten {
+    margin-left: -0.5em;
+}
+#password-container {
+    position: relative;
+}
+#view-password {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px !important;
+    height: 60px;
+    color: transparent !important;
+    background-size: 1.8em;
+    display: none;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+/* gjemmer default passordvisningsknapp i IE */
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+   display: none;
+}
+
+/*************************************************/
+/*             MENY - FÖLJ ÄRENDET               */
+/*************************************************/
+
+.page-container {
+     position: relative;
+
+     #status {
+         padding: 3% 7% !important;
+     }
+
+     .accordion {
+          // menyknapper
+          button {
+               padding: 6.5%;
+               padding-left: 3.4em; /* gjør plass til ikon */
+               background-size: 1.8em;
+               background-position: 0.8em center !important;
+               position: relative;
+
+               /* toggle-knapp */
+               &::before {
+                    content: '';
+                    background-image: url("../ImageDB?imageName=icon_toggle_menu.png");
+                    background-size: 1.2rem;
+                    position: absolute;
+                    right: 1.4rem;
+                    background-repeat: no-repeat;
+                    top: 0;
+                    bottom: 0;
+                    width: 1.2rem;
+                    background-position: 50%;
+               }
+
+               /* roterer pil som indikerer om boks er åpen eller lukket */
+               &.open::before {
+                    -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+               }
+
+               &#btn-historik {
+                    > span {
+                    display: block;
+                    }
+
+               }
+          }
+
+
+          // alt innhold er lukket by default
+          .accordion-content {
+               display: none;
+               padding: 7% !important;
+               background-color: $lighter-grey;
+          }
+     }
+
+     // første "valg" i menyen
+     .info-container {
+          #info-arende {
+               color: transparent;
+               position: absolute;
+               top: -1em;
+               color: transparent !important;
+
+              /* toggle-knapp */
+              &::before {
+                   background-image: url("../ImageDB?imageName=icon_toggle_menu_black.png") !important;
+              }
+          }
+          #info-text-arendet {
+               margin-top: -7% !important;
+          }
+          // bakgrunnen på denne boksen skal være hvit
+          .accordion-content {
+               background-color: $white;
+          }
+     }
+
+     #logout {
+          padding: 7% !important;
+     }
+}
+
+
+/*************************************************/
+/*                  OM ÄRENDET                   */
+/*************************************************/
+
+.role-containers {
+     legend {
+          padding: 3% 7% !important;
+          margin-left: 0em !important;
+          margin-bottom: 0.4em;
+     }
+     #handlaggare_legend {
+          margin-bottom: 0;
+     }
+     [id$="content"] {
+          padding: 6% !important;
+     }
+     > div {
+          margin-bottom: 1.8em;
+     }
+     #info-content {
+          padding-top: 10% !important;
+          background-color: $light-grey;
+     }
+}
+
+/* tekstrad: kategori og tilhørende verdi */
+.row {
+     padding-bottom: 1em;
+     display: flex;
+
+     :first-child {
+          width: 22%;
+          max-width: 8em;
+          padding-right: 2em;
+          text-align: right !important;
+          font-weight: bold !important;
+     }
+}
+
+
+/*************************************************/
+/*                    FOOTER                     */
+/*************************************************/
+#footer > div {
+    width: 86%;
+    margin: auto;
+}

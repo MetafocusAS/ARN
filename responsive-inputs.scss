@@ -1,0 +1,24 @@
+.responsive > div {
+    width: 100%;
+    margin: 0.4em;
+}
+
+@media only screen
+and (min-width : 360px) {
+    /* felter for postnummer / sted */
+    .post-address {
+      display: flex;
+
+      > :first-child {
+        width: 30%;
+      }
+    }
+}
+
+/* pad */
+@media only screen
+and (min-width : 480px) {
+    .responsive {
+        display: flex;
+    }
+}
