@@ -4,20 +4,22 @@
 $font-stack: "Montserrat", sans-serif;
 $font-body-text: "Raleway", sans-serif;
 
-/* colors */
+// colors
 $light-grey: #E5E5E5;
 $lighter-grey: #f2f2f2;
 $black: #000000;
 $white: #ffffff;
+$orange: #F18842;
 $red: #ad0031;
+$mid-red: #920A38;
 $dark-red: #500A21;
 $pink: #c24d6d;
+$green: #339966;
 $blue: #009fbc;
 $dark-blue: #076a81;
 $purple: #7d3fb8;
 
-
-/* tvinger hele løsningen til å bruke spesifisert font, selv ved inline style */
+// tvinger hele løsningen til å bruke spesifisert font, selv ved inline style
 * {
     font-family: $font-stack !important;
 }
@@ -34,12 +36,17 @@ legend {
     margin-left: -0.1em;
 }
 
+// for ting vi ikke vil vise i GUIet
+.hidden {
+     display: none;
+}
+
 
 /*************************************************/
 /*                  PAGE LOADING                 */
 /*************************************************/
 
-/* fjerner loading-gizmo og legger til nytt laget i CSS */
+// fjerner loading-gizmo og legger til nytt laget i CSS
 #digiforms_progress {
     background-image: none !important;
     border: 16px solid $lighter-grey;
@@ -69,11 +76,12 @@ legend {
 /*************************************************/
 /*                    INPUT                      */
 /*************************************************/
-input {
-    border-bottom: solid 6px $pink !important;
+input, textarea {
+     border: none !important;
+     border-bottom: solid 6px $pink !important;
 }
-input:focus {
-    border-bottom: solid 6px $black !important;
+input:focus, text-area:focus {
+     border-bottom: solid 6px $black !important;
 }
 
 
@@ -86,9 +94,11 @@ input:focus {
     color: $white;
     border: solid 1px $white;
     background-color: transparent;
+    position: relative;
+    font-size: 0.9em;
 }
 .btn:hover, .btn:focus {
-    background-color: $dark-red;
+    background-color: $dark-red !important;
 }
 
 
@@ -107,12 +117,12 @@ input:focus {
 /*************************************************/
 /*                FEILMELDINGER                  */
 /*************************************************/
-/* skjuler alle custom valideringsmeldinger */
+// skjuler alle custom valideringsmeldinger
 [id^="validate"] {
     visibility: hidden;
     height: 0px;
 }
-/* legger feilmelding UNDER felt */
+// legger feilmelding UNDER felt
 .label_control {
     width: 100%;
     display: flex !important;
@@ -148,13 +158,13 @@ input:focus {
     padding: 7%;
     background-color: $red;
 }
-/* "FÖLJ ÄRENDET" */
+// "FÖLJ ÄRENDET"
 .page-container_legend {
     font-size: 1.6em;
     padding: 2% 7% 5%;
     font-weight: bold;
 }
-/* "lenke" for glemt passord */
+// "lenke" for glemt passord
 #password-forgotten {
     margin-left: -0.5em;
 }
@@ -173,7 +183,7 @@ input:focus {
     background-repeat: no-repeat;
     background-position: center;
 }
-/* gjemmer default passordvisningsknapp i IE */
+// gjemmer default passordvisningsknapp i IE
 input[type=password]::-ms-reveal,
 input[type=password]::-ms-clear
 {
@@ -181,7 +191,7 @@ input[type=password]::-ms-clear
 }
 
 /*************************************************/
-/*             MENY - FÖLJ ÄRENDET               */
+/*         MENYSTRUKTUR - FÖLJ ÄRENDET           */
 /*************************************************/
 
 .page-container {
@@ -192,15 +202,55 @@ input[type=password]::-ms-clear
      }
 
      .accordion {
-          // menyknapper
-          button {
+
+          .left {
+               margin-left: -9%;
+          }
+          .right {
+               margin-right: -9%;
+          }
+
+          // Menyknapper - åpne/lukke
+          .btn-toggle-menu {
+               width: 100%;
+               text-align: left;
+               color: white;
+               font-size: 1.5em;
+               font-family: $font-stack;
+               font-weight: bold;
                padding: 6.5%;
                padding-left: 3.4em; /* gjør plass til ikon */
-               background-size: 1.8em;
+               background-size: 1.7em;
                background-position: 0.8em center !important;
+               background-repeat: no-repeat;
+               border: none;
                position: relative;
 
-               /* toggle-knapp */
+               // Setter farge og ikon på hver meny-knapp
+               &#btn-historik {
+                    background-color: $red;
+                    background-image: url("../ImageDB?imageName=icon_history.png");
+                    // vising av antall notifications på Historik-knapp
+                    > span {
+                         display: block;
+                    }
+                    span span {
+                         font-size: 0.6em;
+                    }
+                    span span:first-of-type {
+                         padding: 0.15em 0.5em;
+                         border: solid $white 1px;
+                    }
+               }
+               &#btn-komplettera {
+                    background-color: $mid-red;
+                    background-image: url("../ImageDB?imageName=icon_add_document.png");
+               }
+               &#btn-om-arendet {
+                    background-color: $dark-red;
+                    background-image: url("../ImageDB?imageName=icon_information.png");
+               }
+               // knapp får retningspil for indikasjon på om menyalternativ er åpnet eller ikke
                &::before {
                     content: '';
                     background-image: url("../ImageDB?imageName=icon_toggle_menu.png");
@@ -214,36 +264,59 @@ input[type=password]::-ms-clear
                     background-position: 50%;
                }
 
-               /* roterer pil som indikerer om boks er åpen eller lukket */
+               // roterer pil som indikerer om boks er åpen eller lukket
                &.open::before {
                     -webkit-transform: rotate(180deg);
                     transform: rotate(180deg);
                }
-
-               &#btn-historik {
-                    > span {
-                    display: block;
-                    }
-
-               }
+          }
+          // Lukke-knapper for hver enkelt kategori
+          .btn-close-menu {
+               border-radius: 50%;
+               width: 4em;
+               height: 4em;
+               overflow: hidden;
+               color: transparent;
+               margin: auto;
+               display: block;
+               border: none;
+               background-color: $black;
+               background-image: url("../ImageDB?imageName=icon_toggle_menu.png");
+               background-size: 1.2rem;
+               background-repeat: no-repeat;
+               background-position: 50% 55%;
+               -webkit-transform: rotate(180deg); // bildet vises oppned som default
+               transform: rotate(180deg);
+          }
+          .btn-close-menu:hover, .btn-close-menu:focus {
+              background-color: $dark-red;
           }
 
-
-          // alt innhold er lukket by default
           .accordion-content {
-               display: none;
+               display: none; // alt innhold er lukket by default
                padding: 7% !important;
                background-color: $lighter-grey;
           }
+          #acc-komplettera {
+               background-color: $mid-red;
+          }
      }
+
+
+/*************************************************/
+/*                  MENY - INFO                  */
+/*************************************************/
 
      // første "valg" i menyen
      .info-container {
           #info-arende {
-               color: transparent;
+               background-color: transparent;
                position: absolute;
                top: -1em;
                color: transparent !important;
+               width: 100%;
+               height: 3.5em;
+               border: none;
 
               /* toggle-knapp */
               &::before {
@@ -256,6 +329,350 @@ input[type=password]::-ms-clear
           // bakgrunnen på denne boksen skal være hvit
           .accordion-content {
                background-color: $white;
+          }
+     }
+
+     /*************************************************/
+     /*                MENY - HISTORIK                */
+     /*************************************************/
+
+     .message {
+          background-color: white;
+          position: relative;
+          margin-bottom: 3em;
+
+          .message_content {
+              padding: 8% !important;
+
+              // setter kommentar-pil i underkant av hver melding
+              &::after {
+                    content:'';
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                    bottom: -2em;
+              }
+
+              &.left_content::after {
+                    left: 8%;
+                    border-top: 2em solid $white;
+                    border-right: 2em solid transparent;
+              }
+
+              &.midle_content::after {
+                    left: calc(50% - 1.4em);
+                    border-top: 2em solid $white;
+                    border-right: 1.4em solid transparent;
+                    border-left: 1.4em solid transparent;
+              }
+
+              &.right_content::after {
+                   right: 8%;
+                   border-top: 2em solid $white;
+                   border-left: 2em solid transparent;
+              }
+          }
+
+          // Setter ulik farge på de forskjellige rollene
+          .anmalare_legend {
+               background-color: $purple !important;
+          }
+          .handlaggare_legend {
+               background-color: $pink;
+          }
+          .motpart_legend {
+               background-color: $blue;
+          }
+          .motpart-1_legend {
+               background-color: $blue;
+          }
+          .motpart-2_legend {
+               background-color: $green;
+          }
+          .motpart-3_legend {
+               background-color: $orange;
+          }
+
+          .role {
+               position: absolute;
+               top: 0.7em;
+               left: 3.4em;
+               font-size: 1.2em;
+               font-weight: bold;
+
+               &.anmalare {
+                    color: $purple;
+               }
+               &.handlaggare {
+                    color: $pink;
+               }
+               &.motpart, &.motpart-1 {
+                    color: $blue;
+               }
+               &.motpart-2 {
+                    color: $green;
+               }
+               &.motpart-3 {
+                    color: $orange;
+               }
+
+
+          }
+
+          .receiver {
+               position: relative;
+               top: -2em;
+               left: 2em;
+               background-image: url("../ImageDB?imageName=icon_arrow_right.png");
+               background-repeat: no-repeat;
+               background-size: 1.2em;
+
+               .receiver-list {
+                    margin: 0em 1.4em;
+               }
+          }
+          .date {
+               position: absolute;
+               top: 1em;
+               right: 1em;
+          }
+
+          .free-text {
+               line-height: 1.8;
+          }
+
+          .link {
+               text-decoration: underline;
+               font-weight: bold;
+          }
+
+     }
+     .message_legend {
+          width: 2em !important;
+          height: 2em;
+          text-align: center;
+          padding-top: 0.4em;
+          font-size: 1.6em;
+          font-weight: bold;
+          color: white;
+          margin-left: 0em;
+
+          .anmalare {
+               color: $pink;
+          }
+     }
+
+
+
+     /*************************************************/
+     /*               MENY - KOMLETTERA               */
+     /*************************************************/
+
+     #btn-submit {
+          background-color: $black;
+     }
+     .textarea-container {
+          position: relative;
+          .char-count {
+               position: absolute;
+               bottom: 0.6em;
+               left: 0;
+               right: 0;
+               text-align: center;
+               width: 6em;
+               margin: auto;
+          }
+          label {
+               color: transparent;
+          }
+     }
+     // tekst med hjelpetekst
+     .upload-helptext {
+          color: $white;
+          display: inline-block;
+          margin-bottom: 1em;
+          max-width: calc(100% - 4em);
+     }
+
+     .round-btn {
+          background-color: black;
+          border: solid 1px transparent;
+          border-radius: 100%;
+          height: 2.8em;
+          width: 2.8em;
+          color: transparent;
+          overflow: hidden;
+          position: relative;
+
+          &:hover, &:focus {
+               background-color: $dark-red !important;
+          }
+     }
+     // knapp for å vise/skjule hjelpetekst
+     .help-btn {
+          @extend .round-btn;
+          margin-left: 1em;
+          top: -0.6em;
+
+          &::after {
+               content: "i";
+               position: absolute;
+               font-size: 1.8em;
+               top: 0.1em;
+               right: 0;
+               color: $white;
+               width: 100%;
+          }
+     }
+     .close-btn {
+          @extend .round-btn;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+
+          &::after {
+               content: "\d7";
+               position: absolute;
+               font-size: 3em;
+               top: 0;
+               right: 0;
+               color: $white;
+               line-height: 0.9em;
+               width: 100%;
+          }
+     }
+
+     // setter boks med hjelpetekst til å være skjult som default tilstand
+     .help-text {
+          display: none;
+          background-color: $blue;
+          padding: 5% !important;
+
+          div {
+               font-size: 16px;
+               font-weight: bold !important;
+          }
+     }
+
+     // liste med opplastede vedlegg (repres. av ett vedleggselement)
+     .file-download {
+          margin-bottom: 2em;
+          position: relative;
+
+          &_content {
+               padding: 3%;
+               background-color: $red;
+          }
+
+          legend {
+               position: absolute;
+               width: unset !important;
+               padding: 0.74em 1em;
+               background-color: #fff;
+               color: $mid-red;
+               font-weight: bold;
+               font-size: 1.2em;
+               line-height: 1;
+               margin: 3%;
+          }
+
+          .file-type-dropdown {
+               color: transparent;
+
+               .label_text {
+                    display: none !important;
+               }
+
+               /* fjerne stil, legger til custom */
+               select {
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    -o-appearance: none;
+                    -ms-appearance: none;
+                    background: url("ImageDB?imageName=icon_toggle_menu.png") no-repeat;
+                    background-position: 97% center;
+                    background-size: 38px;
+                    color: $white !important;
+                    height: 3em;
+                    padding: 0em 0em 0em 4em !important;
+                    font-size: 1em !important;
+                    font-weight: bold !important;
+
+                    &::-ms-expand {
+                         display: none;
+                    }
+
+                    &:hover, &:focus {
+                         background-color: $mid-red !important;
+                    }
+               }
+          }
+
+         .wrap-file-btns {
+               position: relative;
+               min-height: 3.4em;
+               margin-top: 0.6em;
+
+               .download-btn {
+                    width: calc(100% - 4.8em);
+                    text-align: left;
+                    padding: 1em 2em;
+                    border: solid 1px $white;
+                    background-color: transparent;
+                    color: $white;
+                    min-height: 4.2em;
+                    word-wrap: break-word;
+
+                    &:hover, &:focus {
+                         background-color: $mid-red !important;
+                         text-decoration: underline;
+                    }
+               }
+
+               .delete-btn {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    color: transparent;
+                    overflow: hidden;
+                    background-color: transparent;
+                    border: solid $white 1px;
+                    width: 4em;
+                    background-image: url("../ImageDB?imageName=icon_delete.png");
+                    background-size: 1.8em;
+                    background-repeat: no-repeat;
+                    background-position: center;
+
+                    &:hover, &:focus {
+                         background-color: $mid-red !important;
+                    }
+               }
+          }
+     }
+
+
+     // legger upload-knapp utenfor vinduet
+     .file-upload {
+          input {
+               position: absolute;
+               left: -9999px;
+          }
+          label {
+               background-color: $red;
+               text-align: center;
+               border: solid 2px transparent;
+               position: absolute;
+               top: 0;
+               bottom: 0;
+               left: 0;
+               right: 0;
+               padding-top: 1.2em;
+               cursor: pointer;
+
+               &:focus, &:hover {
+                   background-color: $dark-red !important;
+              }
           }
      }
 
@@ -290,7 +707,7 @@ input[type=password]::-ms-clear
      }
 }
 
-/* tekstrad: kategori og tilhørende verdi */
+// tekstrad: kategori og tilhørende verdi
 .row {
      padding-bottom: 1em;
      display: flex;
