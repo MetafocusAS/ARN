@@ -5,6 +5,7 @@ $font-stack: "Montserrat", sans-serif;
 $font-body-text: "Raleway", sans-serif;
 
 // colors
+$grey: #8A8A8A;
 $light-grey: #E5E5E5;
 $lighter-grey: #f2f2f2;
 $black: #000000;
@@ -28,12 +29,25 @@ body {
     background-color: $white;
 }
 
+// fjerner stygg fokusmarkering
+:focus {
+     outline:none;
+}
+::-moz-focus-inner {
+     border:0;
+}
+
 a {
     color: $white;
 }
 
 legend {
     margin-left: -0.1em;
+}
+
+.text {
+    color: #fff;
+    font-size: 0.8em;
 }
 
 // for ting vi ikke vil vise i GUIet
@@ -79,8 +93,9 @@ legend {
 input, textarea {
      border: none !important;
      border-bottom: solid 6px $pink !important;
+     border-radius: unset !important;
 }
-input:focus, text-area:focus {
+input, text-area {
      border-bottom: solid 6px $black !important;
 }
 
@@ -92,7 +107,7 @@ input:focus, text-area:focus {
     height: 4em;
     width: 100%;
     color: $white;
-    border: solid 1px $white;
+    border: solid 2px $white;
     background-color: transparent;
     position: relative;
     font-size: 0.9em;
@@ -101,16 +116,35 @@ input:focus, text-area:focus {
     background-color: $dark-red !important;
 }
 
-
 /*************************************************/
 /*                    HEADER                     */
 /*************************************************/
 #header {
-    width: 90%;
-    margin: 0.8em auto;
+     width: 90%;
+     margin: 0.8em auto;
+     position: relative;
+
+     #header-content {
+          display: flex;
+          justify-content: space-between;
+
+          .h1 {
+               display: none;
+          }
+          #logout-header {
+               display: none;
+          }
+     }
 }
 #logo {
-    width: 100px !important;
+    width: 6em !important;
+}
+
+.header-folj-arendet { // navn på fane
+     font-size: 1.6em;
+     padding: 2% 7% 5%;
+     font-weight: bold;
+     text-transform: uppercase;
 }
 
 
@@ -154,17 +188,35 @@ input:focus, text-area:focus {
     z-index: 10000;
 }
 
-.element-container {
-    padding: 7%;
-    background-color: $red;
+#wrap-login {
+
+     label {
+          font-size: 1.1em;
+     }
+
+     .reset-password {
+          padding: 1em;
+          margin-top: 5%;
+          background-color: $red;
+          max-width: 30em;
+          margin-left: auto;
+          margin-right: auto;
+
+     }
+
+     .page-container {
+
+          > fieldset > legend {
+               @extend .header-folj-arendet;
+          }
+
+          .element-container {
+              padding: 7%;
+              background-color: $red;
+          }
+     }
 }
-// "FÖLJ ÄRENDET"
-.page-container_legend {
-    font-size: 1.6em;
-    padding: 2% 7% 5%;
-    font-weight: bold;
-}
-// "lenke" for glemt passord
+
 #password-forgotten {
     margin-left: -0.5em;
 }
@@ -190,18 +242,48 @@ input[type=password]::-ms-clear
    display: none;
 }
 
+
 /*************************************************/
 /*         MENYSTRUKTUR - FÖLJ ÄRENDET           */
 /*************************************************/
 
+// skjuler infotekst som skal vises på stor skjerm
+.big-screen {
+     display: none;
+}
+
 .page-container {
      position: relative;
+
+     h2 {
+         display: none;
+     }
 
      #status {
          padding: 3% 7% !important;
      }
 
+     // skjuler container for todelt innhold på større skjerm
+     &.big-screen-container {
+          display: none;
+     }
+
+     &.small-screen-container > fieldset > legend {
+          @extend .header-folj-arendet;
+     }
+
+     .accordion-content {
+          display: none; // alt innhold er lukket by default
+          padding: 2em 7%;
+          background-color: $lighter-grey;
+     }
+
      .accordion {
+
+          .accordion-btn {
+               //-webkit-margin: -0.05em 0em; // iOS legger på noe padding på buttons, dette er for å motvirke dette
+               height: 100%;
+          }
 
           .left {
                margin-left: -9%;
@@ -215,7 +297,7 @@ input[type=password]::-ms-clear
                width: 100%;
                text-align: left;
                color: white;
-               font-size: 1.5em;
+               font-size: 1.2em;
                font-family: $font-stack;
                font-weight: bold;
                padding: 6.5%;
@@ -292,11 +374,6 @@ input[type=password]::-ms-clear
               background-color: $dark-red;
           }
 
-          .accordion-content {
-               display: none; // alt innhold er lukket by default
-               padding: 7% !important;
-               background-color: $lighter-grey;
-          }
           #acc-komplettera {
                background-color: $mid-red;
           }
@@ -312,7 +389,7 @@ input[type=password]::-ms-clear
           #info-arende {
                background-color: transparent;
                position: absolute;
-               top: -1em;
+               top: -0.7em;
                color: transparent !important;
                width: 100%;
                height: 3.5em;
@@ -325,6 +402,7 @@ input[type=password]::-ms-clear
           }
           #info-text-arendet {
                margin-top: -7% !important;
+               padding: 2.5em 7%;
           }
           // bakgrunnen på denne boksen skal være hvit
           .accordion-content {
@@ -337,12 +415,27 @@ input[type=password]::-ms-clear
      /*************************************************/
 
      .message {
-          background-color: white;
+          background-color: $white;
           position: relative;
           margin-bottom: 3em;
+          position: relative;
+          max-width: 36em;
+          margin-left: auto;
+          margin-right: auto;
+          -webkit-box-shadow: 1px 2px 8px 1px rgba(33, 15, 15, 0.2);
+          -moz-box-shadow: 1px 2px 8px 1px rgba(33, 15, 15, 0.2);
+          box-shadow: 1px 2px 8px 1px rgba(33, 15, 15, 0.2);
 
+          &#temp-message {
+               background-color: $blue;
+               margin-bottom: 2em;
+
+               div {
+                    padding: 1.6em;
+               }
+          }
           .message_content {
-              padding: 8% !important;
+              padding: 2em !important;
 
               // setter kommentar-pil i underkant av hver melding
               &::after {
@@ -395,7 +488,7 @@ input[type=password]::-ms-clear
 
           .role {
                position: absolute;
-               top: 0.7em;
+               top: 1.7em;
                left: 3.4em;
                font-size: 1.2em;
                font-weight: bold;
@@ -420,21 +513,21 @@ input[type=password]::-ms-clear
           }
 
           .receiver {
-               position: relative;
-               top: -2em;
-               left: 2em;
                background-image: url("../ImageDB?imageName=icon_arrow_right.png");
                background-repeat: no-repeat;
                background-size: 1.2em;
+               background-position: top left;
+               margin-left: 1.9em;
 
                .receiver-list {
-                    margin: 0em 1.4em;
+                    margin: 2.8em 1.6em 1.2em;
                }
           }
           .date {
                position: absolute;
                top: 1em;
                right: 1em;
+               color: $grey;
           }
 
           .free-text {
@@ -444,6 +537,11 @@ input[type=password]::-ms-clear
           .link {
                text-decoration: underline;
                font-weight: bold;
+               margin-top: 1.2em;
+               cursor: default !important;
+          }
+          .link:hover {
+               color: $red;
           }
 
      }
@@ -456,10 +554,11 @@ input[type=password]::-ms-clear
           font-weight: bold;
           color: white;
           margin-left: 0em;
+          position: absolute;
 
-          .anmalare {
-               color: $pink;
-          }
+          // .anmalare {
+          //      color: $pink;
+          // }
      }
 
 
@@ -594,7 +693,7 @@ input[type=password]::-ms-clear
                     background-size: 38px;
                     color: $white !important;
                     height: 3em;
-                    padding: 0em 0em 0em 4em !important;
+                    padding: 0em 0em 0em 3.8em !important;
                     font-size: 1em !important;
                     font-weight: bold !important;
 
@@ -674,6 +773,9 @@ input[type=password]::-ms-clear
                    background-color: $dark-red !important;
               }
           }
+          #komplettering_upload_vedlegg_wrap {
+              width: calc(100% - 4px) !important;
+          }
      }
 
      #logout {
@@ -709,15 +811,26 @@ input[type=password]::-ms-clear
 
 // tekstrad: kategori og tilhørende verdi
 .row {
-     padding-bottom: 1em;
-     display: flex;
+     display: block;
+     padding-bottom: 1.2em;
+     // display: flex;
+     // font-size: 0.8em;
 
      :first-child {
-          width: 22%;
-          max-width: 8em;
-          padding-right: 2em;
-          text-align: right !important;
+          // width: 22%;
+          // max-width: 8em;
+          // padding-right: 1.6em;
+          // text-align: right !important;
           font-weight: bold !important;
+          font-size: 0.9em !important;
+     }
+     :nth-child(2) {
+          font-size: 1em;
+          word-wrap: break-word;
+          word-break: break-all;
+          -webkit-hyphens: auto;
+          -moz-hyphens: auto;
+          hyphens: auto;
      }
 }
 
@@ -725,7 +838,356 @@ input[type=password]::-ms-clear
 /*************************************************/
 /*                    FOOTER                     */
 /*************************************************/
-#footer > div {
-    width: 86%;
-    margin: auto;
+
+#wrap-case {
+     display: flex;
+     flex-direction: column;
+     min-height: 100vh;
+     justify-content: space-between;
+
+     #footer {
+          width: 100%;
+          margin-top: 6em;
+
+           div {
+              width: 86%;
+              margin: auto;
+          }
+     }
+
+}
+
+
+
+/*************************************************/
+/*                 MEDIA QUERIES                 */
+/*************************************************/
+
+
+
+/* mob */
+@media only screen and (min-width : 321px) {
+     .row {
+          font-size: 0.9em;
+     }
+
+}
+
+
+
+
+@media only screen
+and (min-width : 360px) {
+
+     .text {
+         font-size: 1em;
+     }
+     .page-container {
+
+          .accordion {
+               .btn-toggle-menu {
+                    font-size: 1.4em;
+               }
+               .row {
+                    font-size: 1em;
+               }
+          }
+          .message {
+               // .receiver-list {
+               //      margin-top: 1.4em !important;
+               //      margin-bottom: 1.4em !important;
+               // }
+               .role {
+                    font-size: 1.6em;
+                    top: 1em;
+                    left: 3.5em;
+               }
+          }
+     }
+}
+
+
+@media only screen
+and (min-width : 480px) {
+
+     .page-container .message .message_content {
+          padding: 2em 4em 3.6em !important;
+
+          .receiver {
+               margin-left: unset;
+          }
+     }
+     .row {
+          display: flex;
+          padding-bottom: 1.4em;
+
+          :first-child {
+               width: 22%;
+               max-width: 8em;
+               padding-right: 1.6em;
+               text-align: right !important;
+          }
+     }
+}
+
+
+/* ipad portrait */
+@media only screen
+and (min-width : 768px) {
+
+     #header {
+          margin: 2rem 3em;
+          width: unset;
+
+          .h1 {
+               display: block !important;
+               width: calc(100% - 18em);
+               text-align: center;
+               margin-top: 0.8em;
+          }
+          #logout-header {
+               display: block !important;
+               position: absolute;
+               right: 0;
+               top: 0;
+
+               #btn-logout-header {
+                    font-size: .875em !important;
+                    background-size: 1.6em;
+                    padding-left: 2.1em;
+                    width: 8.4em !important;
+                    position: absolute;
+                    right: 0;
+                    top: -2.2em;
+
+                    &:hover {
+                         background-image: url("../ImageDB?imageName=icon_log_out_hover.png");
+                         color: $red;
+                    }
+               }
+
+               #logged-in-person {
+                    width: 15em;
+                    position: absolute;
+                    right: 10em;
+                    top: -1em;
+               }
+          }
+
+          #logo {
+               width: 12em !important;
+          }
+     }
+
+     // viser infotekst på stor skjerm
+     .big-screen-container {
+
+          #info-text-arendet {
+               margin: 0em 2em;
+               text-align: center !important;
+          }
+     }
+
+     .page-container {
+          h2 {
+               display: block;
+               font-size: 2.73em;
+               color: white;
+               margin-top: 0em;
+          }
+          #content-historik {
+               background-color: $red;
+
+               .date {
+                    right: 1.3em;
+               }
+               .receiver-list {
+                   margin-top: 2.8em !important;
+               }
+          }
+          #content-om-arendet {
+               background-color: $dark-red;
+          }
+          #content-info { // vises første gang, før meny er trykket på
+               display: block;
+               background-color: $white;
+               padding-top: 2% !important;
+
+               img {
+                    margin-top: 4%;
+               }
+          }
+
+          .accordion {
+               .btn-toggle-menu {
+                    padding: 10%;
+                    padding-left: 3.6em;
+                    background-position: 1em center !important;
+
+                    &::before {
+                         background-image: none;
+                    }
+               }
+               @media(hover: hover) {
+                    .btn-toggle-menu:hover {
+                         background-color: $black !important;
+                    }
+                    .btn-toggle-menu:focus {
+                         text-decoration: underline;
+                    }
+               }
+
+          }
+     }
+
+     #wrap-login {
+          .reset-password {
+              padding: 3em;
+          }
+
+          .page-container {
+               background-color: $red;
+               color: $white;
+               margin: 3rem;
+               position: relative;
+
+               &_legend {
+                    position: absolute;
+                    padding: 3rem !important;
+                    font-size: 2.5em !important;
+                    margin: unset;
+               }
+               &_content {
+                    padding: 3rem;
+               }
+
+               .flex-container {
+                    display: flex;
+
+                    > div {
+                         width: 50%;
+                         padding: 0;
+                    }
+
+                    .accordion-btn { // gjemmer knapp for å toggle info
+                         display: none;
+                    }
+                    .accordion-content { // viser alltid infoen på større skjerm
+                         display: block;
+                         background-color: transparent;
+                         padding: 6rem 3rem 0em 0em !important;
+
+                         #info-text-arendet {
+                              color: $white !important;
+                              margin-top: -1em !important;
+                              font-size: 1.2em !important;
+                              line-height: 1.5em !important;
+                         }
+                    }
+                    .element-container {
+                         border-left: solid 5px $pink;
+                         padding-left: 3rem;
+                         max-width: 30em;
+
+                         #login_legend {
+                              font-size: 1.8em !important;
+                         }
+                    }
+               }
+          }
+          .header-folj-arendet { // navn på fane
+               text-transform: unset;
+          }
+     }
+     .wrap-page {
+          display: flex;
+          margin: 0em 3rem;
+          // viser container for todelt innhold på større skjerm
+          .big-screen-container {
+               display: block;
+               width: 100%;
+
+               #content-komplettera {
+                   background-color: $mid-red;
+               }
+          }
+          .small-screen-container {
+               min-width: 16em;
+
+               // skjuler alt som ikke er meny-alternativer
+               &_legend, #info-arende, #info-arende::before, #status, #logout {
+                    display: none !important;
+               }
+
+               // skjuler vanlige accordions
+               .content-small-screen {
+                    display: none !important;
+               }
+          }
+     }
+}
+
+
+/* pc */
+@media only screen
+and (min-width : 980px) {
+     #header, #wrap-login .page-container {
+          margin: 2rem 4rem;
+     }
+     .wrap-page {
+          margin: 0em 4rem;
+
+          .message {
+               margin-bottom: 4em;
+               -webkit-box-shadow: 1px 2px 8px 1px rgba(33, 15, 15, 0.5);
+               -moz-box-shadow: 1px 2px 8px 1px rgba(33, 15, 15, 0.5);
+               box-shadow: 1px 2px 8px 1px rgba(33, 15, 15, 0.5);
+
+               .date {
+                   right: 1.6em !important;
+                   top: 1.4em;
+               }
+          }
+     }
+}
+
+
+/* ipad landscape */
+@media only screen
+and (min-width : 1024px) {
+
+}
+
+
+/* big screen */
+@media only screen
+and (min-width : 1280px) {
+     .h1 {
+          width: calc(100% - 22em) !important;
+     }
+
+     .wrap-page {
+
+          .page-container {
+               h2 {
+                    font-size: 3em;
+               }
+               .accordion-content {
+                    padding: 2.5em 7%;
+                    .message {
+                         margin-bottom: 6em;
+                    }
+               }
+          }
+          .small-screen-container {
+              min-width: 22em;
+          }
+     }
+}
+
+
+/* bigger screen */
+@media only screen
+and (min-width : 1920px) {
+
 }
